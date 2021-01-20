@@ -32,7 +32,10 @@ class UserController {
           );
           // console.log("token:", token);
 
-          return res.json({ Logintoken: token });
+          return res.json({
+            message: "User Logged In SuccessFully",
+            Logintoken: token,
+          });
         } else {
           if (userObj) {
             const userData = new User();
@@ -43,10 +46,11 @@ class UserController {
 
             userData.save().then((userdata) => {
               // console.log("userObjInMongodb", userdata);
-              return res.send(userdata);
+              return res.json({
+                message: "User Logged In SuccessFully",
+                data: userdata,
+              });
             });
-
-            return res.send("User Logged In SuccessFully");
           } else {
             // console.log("something went wrong");
             return res.send("something went wrong");
