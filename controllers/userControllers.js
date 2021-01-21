@@ -67,25 +67,25 @@ class UserController {
 
   async varifytoken(req, res, next) {
     try {
-      // console.log("req.headers.logintoken ==>> ", req.headers.logintoken);
+      console.log("req.body ==>> ", req.body);
 
-      if (!req.headers.logintoken) {
+      if (!req.body.loginToken) {
         return res.send("Login token is not valid");
       } else {
-        const payload = await jwt.verify(
-          req.headers.logintoken,
+        const payload = jwt.verify(
+          req.body.loginToken,
           process.env.LOGIN_TOKEN_SECRET
         );
 
+        console.log("payload -------- >>>>>>>>> ", payload);
+
         if (payload) {
           console.log("ok");
-          return res
-            .redirect("/dashboard")
-            .send(" Token varified , it seems good");
+          return res.json({ message: `Welcome ! ${payload.useremail}` });
         }
-        return res.send(
-          "Invalid Token, session got expired, Need to Login Again !"
-        );
+        return res.json({
+          error: "Invalid Token, session got expired, Need to Login Again !",
+        });
       }
     } catch (error) {
       // console.log(error.message);
