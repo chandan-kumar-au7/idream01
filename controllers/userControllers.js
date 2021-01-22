@@ -27,7 +27,7 @@ class UserController {
             },
             process.env.LOGIN_TOKEN_SECRET,
             {
-              expiresIn: "1h",
+              expiresIn: "24h",
             }
           );
           // console.log("token:", token);
@@ -67,7 +67,7 @@ class UserController {
 
   async varifytoken(req, res, next) {
     try {
-      console.log("req.body ==>> ", req.body);
+      // console.log("req.body ==>> ", req.body);
 
       if (!req.body.loginToken) {
         return res.send("Login token is not valid");
@@ -77,11 +77,11 @@ class UserController {
           process.env.LOGIN_TOKEN_SECRET
         );
 
-        console.log("payload -------- >>>>>>>>> ", payload);
+        // console.log("payload -------- >>>>>>>>> ", payload);
 
         if (payload) {
-          console.log("ok");
-          return res.json({ message: `Welcome ! ${payload.useremail}` });
+          // console.log("ok");
+          return res.json({ message: `Welcome -- ${payload.useremail} ` });
         }
         return res.json({
           error: "Invalid Token, session got expired, Need to Login Again !",
