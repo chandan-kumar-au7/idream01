@@ -4,6 +4,6 @@ const DauControllers = require("../controllers/DauControllers");
 
 const router = express.Router();
 
-router.get("/getdau", DauControllers.GetDau);
+router.post("/getdau", DauControllers.GetDau);
 
 module.exports = router;
