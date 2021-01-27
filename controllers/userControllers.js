@@ -81,11 +81,21 @@ class UserController {
 
         if (payload) {
           // console.log("ok");
-          return res.json({ message: `Welcome -- ${payload.useremail} ` });
+
+          User.findOne({ email: payload.useremail }).then((user) => {
+            if (user) {
+              return res.json({
+                message: `Welcome -- ${payload.useremail} `,
+                data: user,
+              });
+            } else {
+              return res.json({
+                error:
+                  "Invalid Token, session got expired, Need to Login Again !",
+              });
+            }
+          });
         }
-        return res.json({
-          error: "Invalid Token, session got expired, Need to Login Again !",
-        });
       }
     } catch (error) {
       // console.log(error.message);
