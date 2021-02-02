@@ -12,7 +12,7 @@ const googleAuth = async (token) => {
   });
   const payload = ticket.getPayload();
 
-  console.log(`User ${payload.name} verified`);
+  // console.log(`User ${payload.name} verified`);
 
   const { sub, email, name, picture } = payload;
 

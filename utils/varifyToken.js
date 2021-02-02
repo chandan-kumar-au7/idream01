@@ -18,6 +18,6 @@ exports.getProfileInfo = async (code) => {
 
   const payload = ticket.getPayload();
 
-  console.log("payload --- ", payload);
+  // console.log("payload --- ", payload);
   return payload;
 };

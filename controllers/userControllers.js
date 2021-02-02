@@ -12,17 +12,17 @@ class UserController {
       let userObj = await googleAuth(req.body.tokenId);
 
       // checking if user exist or not inside mongodb
-      User.findOne({ email }).then((user) => {
-        if (user) {
-          console.log("user already in db");
+      User.findOne({ email }).then((userdata) => {
+        if (userdata) {
+          // console.log("user already in db");
 
           // passport jwt logic executed here...
 
           const token = jwt.sign(
             {
-              username: user.username,
-              useremail: user.email,
-              userid: user._id,
+              username: userdata.username,
+              useremail: userdata.email,
+              userid: userdata._id,
               date: Date.now(),
             },
             process.env.LOGIN_TOKEN_SECRET,
@@ -34,6 +34,7 @@ class UserController {
 
           return res.json({
             message: "User Logged In SuccessFully",
+            userdata,
             Logintoken: token,
           });
         } else {
@@ -46,9 +47,25 @@ class UserController {
 
             userData.save().then((userdata) => {
               // console.log("userObjInMongodb", userdata);
+
+              const token = jwt.sign(
+                {
+                  username: userdata.username,
+                  useremail: userdata.email,
+                  userid: userdata._id,
+                  date: Date.now(),
+                },
+                process.env.LOGIN_TOKEN_SECRET,
+                {
+                  expiresIn: "24h",
+                }
+              );
+
+
               return res.json({
                 message: "User Logged In SuccessFully",
-                data: userdata,
+                Logintoken: token,
+                userdata,
               });
             });
           } else {
